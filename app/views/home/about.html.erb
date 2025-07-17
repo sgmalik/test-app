@@ -1,0 +1,81 @@
+<div class="about-header">
+  <h1>About Our Restaurant</h1>
+  <p>Learn more about our story, values, and commitment to great food</p>
+</div>
+<div class="about-content">
+  <div class="about-section">
+    <h2>Our Story</h2>
+    <p>
+      Founded in 2020, our restaurant began as a small family dream to bring
+      authentic, delicious food to our community. What started as a passion
+      project has grown into a beloved local establishment where friends and
+      families gather to share memorable meals.
+</p> <p>
+      Our founders, Maria and Giuseppe, immigrated from Italy with nothing
+but
+      their grandmother's recipes and an unwavering commitment to quality.
+      Today, we continue to honor those traditions while embracing modern
+culinary techniques and local ingredients.
+    </p>
+</div>
+  <div class="about-section">
+    <h2>Our Philosophy</h2>
+    <p>
+      We believe that great food brings people together. Every dish we serve
+      is prepared with care, using fresh, locally-sourced ingredients
+whenever
+      possible. Our chefs combine traditional techniques with creative flair
+      to create dishes that are both familiar and exciting.
+    </p>
+    <p>
+      Sustainability is important to us. We work with local farmers and
+      suppliers to reduce our environmental impact while supporting our
+      community. Our menu changes seasonally to reflect the best ingredients
+      available.
+</p> </div>
+  <div class="about-section">
+    <h2>Meet Our Team</h2>
+    <div class="team-grid">
+      <div class="team-member">
+        <h3>Maria Rodriguez</h3>
+        <p><strong>Head Chef & Co-Owner</strong></p>
+        <p>With 15 years of culinary experience, Maria leads our kitchen with
+passion and precision.</p>
+      </div>
+      <div class="team-member">
+        <h3>Giuseppe Martinez</h3>
+        <p><strong>Restaurant Manager & Co-Owner</strong></p>
+        <p>Giuseppe ensures every guest has an exceptional dining experience
+from start to finish.</p>
+      </div>
+      <div class="team-member">
+        <h3>Sarah Johnson</h3>
+        <p><strong>Sous Chef</strong></p>
+        <p>Sarah brings creativity and innovation to our menu while
+maintaining our high standards.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="about-section">
+    <h2>Get In Touch</h2>
+    <p>Have questions or feedback? We'd love to hear from you!</p>
+    <%= form_with url: contact_path, local: true, class: "contact-form" do
+|form| %>
+      <div class="form-group">
+        <%= form.label :name, "Your Name" %>
+        <%= form.text_field :name, class: "form-control", required: true %>
+</div>
+      <div class="form-group">
+        <%= form.label :email, "Your Email" %>
+        <%= form.email_field :email, class: "form-control", required: true %>
+</div>
+      <div class="form-group">
+        <%= form.label :message, "Your Message" %>
+        <%= form.text_area :message, class: "form-control", rows: 4,
+required: true %>
+      </div>
+      <%= form.submit "Send Message", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

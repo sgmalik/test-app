@@ -1,0 +1,56 @@
+<div class="page-header">
+  <h1>Our Menu</h1>
+  <p>Discover our delicious selection of carefully crafted dishes</p>
+</div>
+
+<div class="menu-controls">
+  <%= link_to "Add New Menu Item", new_menu_item_path, class: "btn btn-primary" %>
+
+  <div class="filters">
+    <%= form_with url: menu_items_path, method: :get, local: true, class: "filter-form" do |form| %>
+      <%= form.select :category,
+            options_for_select([['All Categories', '']] + @categories.map { |c| [c, c] }),
+            { selected: params[:category] },
+            { class: "form-control" } %>
+      <%= form.submit "Filter", class: "btn btn-secondary" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="menu-grid">
+  <% @menu_items.group_by(&:category).each do |category, items| %>
+    <div class="menu-category">
+      <h2><%= category %></h2>
+      <div class="menu-items">
+        <% items.each do |item| %>
+          <div class="menu-item-card <%= 'unavailable' unless item.available %>">
+            <div class="item-header">
+              <h3><%= link_to item.name, item, class: "item-name" %></h3>
+              <span class="price"><%= number_to_currency(item.price) %></span>
+            </div>
+            <p class="description"><%= item.description %></p>
+            <div class="item-actions">
+              <%= link_to "View", item, class: "btn btn-sm btn-info" %>
+              <%= link_to "Edit", edit_menu_item_path(item), class: "btn btn-sm btn-warning" %>
+              <%= link_to "Delete", item,
+                    method: :delete,
+                    data: { confirm: "Are you sure?" },
+                    class: "btn btn-sm btn-danger" %>
+              <% unless item.available %>
+                <span class="unavailable-badge">Unavailable</span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @menu_items.empty? %>
+  <div class="empty-state">
+    <h3>No menu items yet!</h3>
+    <p>Get started by adding your first menu item.</p>
+    <%= link_to "Add Menu Item", new_menu_item_path, class: "btn btn-primary" %>
+  </div>
+<% end %>

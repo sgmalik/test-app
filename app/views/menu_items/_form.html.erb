@@ -1,0 +1,44 @@
+<%= form_with model: menu_item, local: true, class: "menu-item-form" do
+|form| %>
+  <% if menu_item.errors.any? %>
+    <div class="error-messages">
+      <h4><%= pluralize(menu_item.errors.count, "error") %> prohibited this
+menu item from being saved:</h4>
+      <ul>
+        <% menu_item.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+</ul> </div>
+<% end %>
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "form-control" %>
+</div>
+<div class="form-group">
+  <%= form.label :category %>
+  <%= form.select :category,
+        options_for_select(
+          MenuItem::CATEGORIES.map { |c| [c, c] },
+          menu_item.category
+        ),
+        { prompt: "Select a category" },
+        { class: "form-control", required: true } %>
+</div>
+<div class="form-group">
+  <%= form.label :price %>
+  <%= form.number_field :price, step: 0.01, class: "form-control" %>
+</div>
+<div class="form-group">
+<%= form.label :description %>
+    <%= form.text_area :description, rows: 4, class: "form-control" %>
+  </div>
+  <div class="form-group checkbox-group">
+    <%= form.check_box :available, class: "form-check" %>
+    <%= form.label :available, "Available for ordering", class: "form-check-
+label" %>
+  </div>
+  <div class="form-actions">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", menu_items_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
