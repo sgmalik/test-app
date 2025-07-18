@@ -19,4 +19,13 @@ Rails.application.routes.draw do
   resources :menu_items
   get 'menu', to: 'menu_items#index'
   get 'reservations', to: 'reservations#index'
+
+  resources :reservations do
+    member do
+      patch 'confirm', to: 'reservations#confirm'
+      patch 'cancel', to: 'reservations#cancel'
+    end
+  end
+
+  get 'book', to: 'reservations#new'
 end

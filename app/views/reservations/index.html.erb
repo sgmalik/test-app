@@ -1,28 +1,68 @@
 <div class="page-header">
-  <h1>Make a Reservation</h1>
-  <p>Book your table for an unforgettable dining experience</p>
+  <h1>Reservations</h1>
+  <p>Manage restaurant reservations and bookings</p>
 </div>
-<div class="reservation-info">
-  <div class="info-section">
-    <h2>Restaurant Hours</h2>
-    <div class="hours">
-      <p><strong>Monday - Thursday:</strong> 5:00 PM - 10:00 PM</p>
-      <p><strong>Friday - Saturday:</strong> 5:00 PM - 11:00 PM</p>
-      <p><strong>Sunday:</strong> 4:00 PM - 9:00 PM</p>
-    </div>
+
+<div class="reservation-controls">
+  <%= link_to "New Reservation", new_reservation_path, class: "btn btn-primary" %>
+  <div class="filters">
+    <%= form_with url: reservations_path, method: :get, local: true, class: "filter-form" do |form| %>
+      <%= form.select :status, options_for_select([['All Statuses', '']] +
+                      Reservation::STATUSES.map { |s| [s.humanize, s] }),
+                      { selected: params[:status] }, { class: "form-control" } %>
+      <%= form.date_field :date, value: params[:date], class: "form-control" %>
+      <%= form.submit "Filter", class: "btn btn-secondary" %>
+    <% end %>
   </div>
-  <div class="info-section">
-    <h2>Contact Information</h2>
-    <div class="contact">
-      <p><strong>Phone:</strong> (555) 123-4567</p>
-      <p><strong>Email:</strong> reservations@restaurantapp.com</p>
-      <p><strong>Address:</strong> 123 Main Street, Your City, State
-12345</p>
-    </div>
 </div>
-  <div class="coming-soon">
-    <h3>Online Reservations Coming Soon!</h3>
-    <p>We're building an online reservation system. For now, please call us
-to make a reservation.</p>
-  </div>
+
+<div class="reservations-list">
+  <% if @reservations.any? %>
+    <% @reservations.group_by { |r| r.reservation_date.to_date }.each do |date, reservations| %>
+      <div class="date-group">
+        <h3><%= date.strftime("%A, %B %d, %Y") %></h3>
+        <div class="reservations-grid">
+          <% reservations.each do |reservation| %>
+            <div class="reservation-card status-<%= reservation.status %>">
+              <div class="reservation-header">
+                <h4><%= link_to reservation.customer_name, reservation %></h4>
+                <span class="status-badge status-<%= reservation.status %>">
+                  <%= reservation.status.humanize %>
+                </span>
+              </div>
+              <div class="reservation-details">
+                <p><strong>Time:</strong> <%= reservation.reservation_date.strftime("%I:%M %p") %></p>
+                <p><strong>Party Size:</strong> <%= reservation.party_size %> people</p>
+                <p><strong>Email:</strong> <%= reservation.customer_email %></p>
+                <p><strong>Phone:</strong> <%= reservation.customer_phone %></p>
+                <% if reservation.special_requests.present? %>
+                  <p><strong>Special Requests:</strong> <%= reservation.special_requests %></p>
+                <% end %>
+              </div>
+              <div class="reservation-actions">
+                <%= link_to "View", reservation, class: "btn btn-sm btn-info" %>
+                <% if reservation.pending? %>
+                  <%= link_to "Confirm", confirm_reservation_path(reservation),
+                              method: :patch, class: "btn btn-sm btn-success" %>
+                <% end %>
+                <% if reservation.can_be_cancelled? %>
+                  <%= link_to "Cancel", cancel_reservation_path(reservation),
+                              method: :patch, confirm: "Are you sure?",
+                              class: "btn btn-sm btn-warning" %>
+                <% end %>
+                <%= link_to "Delete", reservation, method: :delete,
+                            confirm: "Are you sure?", class: "btn btn-sm btn-danger" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="empty-state">
+      <h3>No reservations found</h3>
+      <p>No reservations match your current filters.</p>
+      <%= link_to "Make a Reservation", new_reservation_path, class: "btn btn-primary" %>
+    </div>
+  <% end %>
 </div>

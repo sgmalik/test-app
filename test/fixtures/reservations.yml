@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer_name: MyString
+  customer_email: MyString
+  customer_phone: MyString
+  party_size: 1
+  reservation_date: 2025-07-18 15:58:03
+  special_requests: MyText
+  status: MyString
+
+two:
+  customer_name: MyString
+  customer_email: MyString
+  customer_phone: MyString
+  party_size: 1
+  reservation_date: 2025-07-18 15:58:03
+  special_requests: MyText
+  status: MyString

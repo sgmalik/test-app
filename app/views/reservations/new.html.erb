@@ -1,0 +1,79 @@
+<div class="page-header">
+  <h1>Make a Reservation</h1>
+  <p>Book your table for an unforgettable dining experience</p>
+</div>
+
+<div class="reservation-form-container">
+  <div class="form-info">
+    <h3>Restaurant Information</h3>
+    <div class="info-item">
+      <strong>Hours:</strong>
+      <p>Monday - Thursday: 5:00 PM - 10:00 PM</p>
+      <p>Friday - Saturday: 5:00 PM - 11:00 PM</p>
+      <p>Sunday: 4:00 PM - 9:00 PM</p>
+    </div>
+    <div class="info-item">
+      <strong>Contact:</strong>
+      <p>Phone: (555) 123-4567</p>
+      <p>Email: reservations@restaurantapp.com</p>
+    </div>
+    <div class="info-item">
+      <strong>Party Size:</strong>
+      <p>We accommodate parties up to 12 people</p>
+    </div>
+  </div>
+
+  <div class="form-container">
+    <%= form_with model: @reservation, local: true, class: "reservation-form" do |form| %>
+      <% if @reservation.errors.any? %>
+        <div class="error-messages">
+          <h4><%= pluralize(@reservation.errors.count, "error") %> prohibited this reservation from being saved:</h4>
+          <ul>
+            <% @reservation.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-row">
+        <div class="form-group">
+          <%= form.label :customer_name, "Your Name" %>
+          <%= form.text_field :customer_name, class: "form-control", required: true %>
+        </div>
+        <div class="form-group">
+          <%= form.label :customer_email, "Email Address" %>
+          <%= form.email_field :customer_email, class: "form-control", required: true %>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <%= form.label :customer_phone, "Phone Number" %>
+          <%= form.telephone_field :customer_phone, class: "form-control", required: true %>
+        </div>
+        <div class="form-group">
+          <%= form.label :party_size, "Party Size" %>
+          <%= form.number_field :party_size, min: 1, max: 12, class: "form-control", required: true %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :reservation_date, "Date and Time" %>
+        <%= form.datetime_local_field :reservation_date, class: "form-control", required: true %>
+        <small class="form-text">Please select a date and time during our business hours</small>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :special_requests, "Special Requests (Optional)" %>
+        <%= form.text_area :special_requests, rows: 3, class: "form-control",
+                           placeholder: "Any dietary restrictions, seating preferences, or special occasions?" %>
+      </div>
+
+      <div class="form-actions">
+        <%= form.submit "Submit Reservation", class: "btn btn-primary btn-large" %>
+        <%= link_to "Cancel", reservations_path, class: "btn btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

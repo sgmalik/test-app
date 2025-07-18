@@ -1,0 +1,51 @@
+<div class="reservation-detail">
+  <div class="reservation-header">
+    <h1>Reservation Details</h1>
+    <span class="status-badge status-<%= @reservation.status %>">
+      <%= @reservation.status.humanize %>
+    </span>
+  </div>
+
+  <div class="reservation-info">
+    <div class="info-section">
+      <h3>Customer Information</h3>
+      <p><strong>Name:</strong> <%= @reservation.customer_name %></p>
+      <p><strong>Email:</strong> <%= @reservation.customer_email %></p>
+      <p><strong>Phone:</strong> <%= @reservation.customer_phone %></p>
+    </div>
+
+    <div class="info-section">
+      <h3>Reservation Details</h3>
+      <p><strong>Date & Time:</strong> <%= @reservation.formatted_date %></p>
+      <p><strong>Party Size:</strong> <%= @reservation.party_size %> people</p>
+      <% if @reservation.special_requests.present? %>
+        <p><strong>Special Requests:</strong> <%= @reservation.special_requests %></p>
+      <% end %>
+    </div>
+
+    <div class="info-section">
+      <h3>Status Information</h3>
+      <p><strong>Current Status:</strong> <%= @reservation.status.humanize %></p>
+      <p><strong>Created:</strong> <%= @reservation.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+      <% if @reservation.updated_at != @reservation.created_at %>
+        <p><strong>Last Updated:</strong> <%= @reservation.updated_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="reservation-actions">
+    <% if @reservation.pending? %>
+      <%= link_to "Confirm Reservation", confirm_reservation_path(@reservation),
+                  method: :patch, class: "btn btn-success" %>
+    <% end %>
+    <% if @reservation.can_be_cancelled? %>
+      <%= link_to "Cancel Reservation", cancel_reservation_path(@reservation),
+                  method: :patch, confirm: "Are you sure you want to cancel this reservation?",
+                  class: "btn btn-warning" %>
+    <% end %>
+    <%= link_to "Edit", edit_reservation_path(@reservation), class: "btn btn-info" %>
+    <%= link_to "Delete", @reservation, method: :delete,
+                confirm: "Are you sure?", class: "btn btn-danger" %>
+    <%= link_to "Back to Reservations", reservations_path, class: "btn btn-secondary" %>
+  </div>
+</div>
