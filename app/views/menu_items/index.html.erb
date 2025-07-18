@@ -32,9 +32,9 @@
             <div class="item-actions">
               <%= link_to "View", item, class: "btn btn-sm btn-info" %>
               <%= link_to "Edit", edit_menu_item_path(item), class: "btn btn-sm btn-warning" %>
-              <%= link_to "Delete", item,
-                    method: :delete,
-                    data: { confirm: "Are you sure?" },
+              <%= link_to "Delete",
+                    item,
+                    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
                     class: "btn btn-sm btn-danger" %>
               <% unless item.available %>
                 <span class="unavailable-badge">Unavailable</span>

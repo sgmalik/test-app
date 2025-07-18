@@ -16,8 +16,10 @@
   <div class="item-actions">
     <%= link_to "Edit", edit_menu_item_path(@menu_item), class: "btn btn-
 warning" %>
-    <%= link_to "Delete", @menu_item, method: :delete,
-confirm: "Are you sure?", class: "btn btn-danger" %>
+    <%= link_to "Delete",
+        @menu_item,
+        data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+        class: "btn btn-danger" %>
     <%= link_to "Back to Menu", menu_items_path, class: "btn btn-secondary"
 %> </div>
 </div>
