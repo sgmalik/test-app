@@ -84,4 +84,37 @@ vanilla ice cream",
 } ])
 puts "Created #{MenuItem.count} menu items"
 
- 
+# Create sample reservations
+Reservation.destroy_all
+sample_reservations = [
+  {
+    customer_name: "John Smith",
+    customer_email: "john@example.com",
+    customer_phone: "(555) 123-4567",
+    party_size: 4,
+    reservation_date: 2.days.from_now.change(hour: 19, min: 0),
+    special_requests: "Window table please",
+    status: "pending"
+}, {
+    customer_name: "Sarah Johnson",
+    customer_email: "sarah@example.com",
+    customer_phone: "(555) 987-6543",
+party_size: 2,
+    reservation_date: 3.days.from_now.change(hour: 20, min: 30),
+    special_requests: "Anniversary dinner",
+    status: "confirmed"
+}, {
+    customer_name: "Mike Wilson",
+    customer_email: "mike@example.com",
+    customer_phone: "(555) 456-7890",
+    party_size: 6,
+    reservation_date: 1.day.from_now.change(hour: 18, min: 0),
+    special_requests: "Birthday celebration",
+    status: "pending"
+} ]
+
+sample_reservations.each do |reservation_data|
+  Reservation.create!(reservation_data)
+end
+
+puts "Created #{Reservation.count} reservations"

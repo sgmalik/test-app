@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+       body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+      .header { background: #667eea; color: white; padding: 20px; text-align: center; }
+      .content { padding: 20px; }
+      .details { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; }
+      .footer { background: #343a40; color: white; padding: 15px; text-align: center; }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>RestaurantApp</h1>
+      <h2>Reservation Confirmation</h2>
+    </div>
+    <div class="content">
+      <p>Dear <%= @customer_name %>,</p>
+      <p>Thank you for your reservation request! We have received your booking and will confirm it shortly.</p>
+      <div class="details">
+        <h3>Reservation Details:</h3>
+        <p><strong>Date & Time:</strong> <%= @reservation.formatted_date %> </p>
+        <p><strong>Party Size:</strong> <%= @reservation.party_size %> people</p>
+        <p><strong>Status:</strong> <%= @reservation.status.humanize %></p>
+        <% if @reservation.special_requests.present? %>
+          <p><strong>Special Requests:</strong> <%= @reservation.special_requests %></p>
+        <% end %>
+      </div>
+      <p>We will contact you within 24 hours to confirm your reservation. If you need to make any changes or have questions, please call us at (555) 123-4567.</p>
+      <p>We look forward to serving you!</p>
+      <p>Best regards,<br>The RestaurantApp Team</p>
+    </div>
+    <div class="footer">
+      <p>RestaurantApp | 123 Main Street | (555) 123-4567</p>
+    </div>
+  </body>
+</html>
