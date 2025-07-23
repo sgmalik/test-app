@@ -4,6 +4,8 @@
 # within the API v1 namespace. Supports filtering, sorting, pagination,
 # and uses JSONAPI-compliant serialization.
 class Api::V1::MenuItemsController < Api::V1::BaseController
+  include ApiValidation
+  before_action :validate_pagination_params, only: [:index]
   # Load the menu item for actions that operate on a single record
   before_action :set_menu_item, only: [:show, :update, :destroy]
 

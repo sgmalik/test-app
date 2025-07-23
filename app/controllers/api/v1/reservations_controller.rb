@@ -5,6 +5,9 @@
 # within the API v1 namespace. Handles listing, retrieval, creation,
 # updating, deletion, and status transitions (confirm/cancel).
 class Api::V1::ReservationsController < Api::V1::BaseController
+  include ApiValidation
+  before_action :validate_pagination_params, only: [:index]
+  before_action :validate_date_params, only: [:index]
   # Load the reservation record for single-resource actions
   before_action :set_reservation, only: [:show, :update, :destroy, :confirm, :cancel]
 
