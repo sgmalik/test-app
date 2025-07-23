@@ -1,0 +1,32 @@
+/* src/components/common/ThemeToggle.css */
+/* ===================================================================== */
+/* ThemeToggle Button Styles                                             */
+/* --------------------------------------------------------------------- */
+
+/*
+  .theme-toggle
+  The ThemeToggle button is a circular icon button that sits in the UI,
+  allowing users to switch between light and dark mode. It uses CSS
+  variables for colors inherited from the current theme.
+*/
+.theme-toggle {
+  background: none;                   /* No default background, so only icon shows */
+  border: none;                       /* Remove default button border */
+  font-size: 1.5em;                   /* Increase icon size for visibility */
+  cursor: pointer;                    /* Pointer cursor to indicate clickable */
+  padding: 8px;                       /* Padding around the icon for a larger hit area */
+  border-radius: 50%;                 /* Make the button perfectly circular */
+  transition: background-color 0.3s ease; /* Smooth transition when hovering */
+  display: flex;                      /* Use flex to center the icon inside */
+  align-items: center;                /* Vertically center icon */
+  justify-content: center;            /* Horizontally center icon */
+}
+
+/*
+  .theme-toggle:hover
+  On hover, apply a semi-transparent overlay to give user feedback.
+  The color is chosen to work on both light and dark backgrounds.
+*/
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Light overlay for hover effect */
+}

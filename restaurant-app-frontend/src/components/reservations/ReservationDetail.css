@@ -1,0 +1,138 @@
+/* src/components/reservations/ReservationDetail.css */
+/* --------------------------------------------------------------------- */
+/* ReservationDetail Component Styles                                    */
+/* --------------------------------------------------------------------- */
+
+/*
+  .reservation-detail
+  Root container for the detail view.
+    • Centers content with auto horizontal margins.
+    • Provides top/bottom spacing for readability.
+    • Constrains width to avoid overly long lines.
+*/
+.reservation-detail {
+  max-width: 800px;          /* Limit line length for ease of reading */
+  margin: 40px auto;         /* Center and add vertical spacing */
+  padding: 0 20px;           /* Side padding */
+  color: #333;               /* Dark text for readability */
+}
+
+/*
+  .detail-header
+  Header section containing the customer's name and status badge.
+    • Flex layout to align name on the left and badge on the right.
+    • Spacing below to separate from the details section.
+*/
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+.detail-header h1 {
+  font-size: 2em;            /* Large, prominent heading */
+  margin: 0;
+}
+.detail-header .status-badge {
+  padding: 6px 14px;         /* Padding for pill shape */
+  border-radius: 20px;       /* Rounded ends */
+  font-size: 0.9em;          /* Slightly smaller text */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/*
+  Status-specific badge colors:
+    • Pending: amber background
+    • Confirmed: green background
+    • Cancelled: red background
+    • Completed: gray background
+*/
+.status-badge.status-pending   { background: #fff3cd; color: #856404; }
+.status-badge.status-confirmed { background: #d4edda; color: #155724; }
+.status-badge.status-cancelled { background: #f8d7da; color: #721c24; }
+.status-badge.status-completed { background: #e2e3e5; color: #383d41; }
+
+/*
+  .detail-info, .detail-contact
+  Sections for reservation metadata and contact details.
+    • Consistent bottom margin between lines for clarity.
+*/
+.detail-info p,
+.detail-contact p {
+  margin: 8px 0;
+  font-size: 1em;
+  line-height: 1.4;
+}
+.detail-info strong,
+.detail-contact strong {
+  display: inline-block;
+  width: 90px;               /* Label width for alignment */
+  color: #343a40;            /* Dark label color */
+  font-weight: 600;
+}
+
+/*
+  .detail-requests
+  Section for special requests, only shown if data exists.
+    • Adds a heading and paragraph styling for clarity.
+*/
+.detail-requests {
+  margin: 30px 0;
+}
+.detail-requests h3 {
+  margin-bottom: 10px;
+  font-size: 1.3em;
+}
+.detail-requests p {
+  margin: 0;
+  line-height: 1.5;
+  color: #555;
+}
+
+/*
+  .detail-actions
+  Container for action buttons at the bottom of the detail view.
+    • Flex layout with wrap for responsiveness.
+    • Gap between buttons for touch targets.
+    • Top margin to separate from content above.
+*/
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+/*
+  .detail-actions .btn
+  Ensure a minimum size and padding for all buttons.
+*/
+.detail-actions .btn {
+  padding: 10px 20px;
+  font-size: 0.95em;
+}
+
+/* --------------------------------------------------------------------- */
+/* Responsive Adjustments                                                 */
+/* --------------------------------------------------------------------- */
+@media (max-width: 600px) {
+  /*
+    On small screens:
+      • Stack header elements vertically.
+      • Make buttons span full width for easy tapping.
+  */
+  .detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .detail-actions {
+    flex-direction: column;
+  }
+  .detail-actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+}

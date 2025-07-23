@@ -1,0 +1,119 @@
+/* src/styles/themes.css */
+/* ===================================================================== */
+/* Theme Variables and Core Styles                                      */
+/* --------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------- */
+/* Root Theme Variables (Light Mode)                                     */
+/* Define CSS custom properties for colors, shadows, and gradients.     */
+/* These variables can be re-used throughout the app’s CSS.             */
+/* --------------------------------------------------------------------- */
+:root {
+  /* ------------------------------------------------------------------- */
+  /* Background Colors                                                   */
+  /* ------------------------------------------------------------------- */
+  --bg-primary:   #f8f9fa;  /* Main page background (light gray)  */
+  --bg-secondary: #ffffff;  /* Card and panel background (white)   */
+  --bg-tertiary:  #f8f9fa;  /* Secondary surfaces (light gray)     */
+
+  /* ------------------------------------------------------------------- */
+  /* Text Colors                                                         */
+  /* ------------------------------------------------------------------- */
+  --text-primary:   #333333; /* Primary text (dark gray)           */
+  --text-secondary: #666666; /* Secondary text (medium gray)       */
+  --text-muted:     #999999; /* Muted captions and placeholders    */
+
+  /* ------------------------------------------------------------------- */
+  /* Borders & Shadows                                                   */
+  /* ------------------------------------------------------------------- */
+  --border-color:   #e9ecef; /* Light border for inputs/cards      */
+  --shadow:         rgba(0, 0, 0, 0.1);  /* Subtle drop shadow  */
+  --shadow-hover:   rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
+
+  /* ------------------------------------------------------------------- */
+  /* Brand Gradients                                                     */
+  /* ------------------------------------------------------------------- */
+  --primary-gradient:       linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --primary-gradient-hover: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  --accent-gradient:        linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+
+  /* ------------------------------------------------------------------- */
+  /* Status Colors                                                       */
+  /* ------------------------------------------------------------------- */
+  --success-color: #28a745;  /* Green for success states            */
+  --warning-color: #ffc107;  /* Amber for warnings                  */
+  --danger-color:  #dc3545;  /* Red for errors or destructive actions */
+  --info-color:    #17a2b8;  /* Teal for informational messages     */
+  --secondary-color: #6c757d;/* Gray for secondary buttons/badges   */
+}
+
+/* --------------------------------------------------------------------- */
+/* Dark Theme Overrides                                                  */
+/* When the `data-theme="dark"` attribute is present on <html> or <body>, */
+/* these variables override the light-mode defaults for a dark interface.*/
+/* --------------------------------------------------------------------- */
+[data-theme="dark"] {
+  /* Dark background surfaces */
+  --bg-primary:   #1a1a1a;  /* Very dark page background          */
+  --bg-secondary: #2d2d2d;  /* Dark panels and cards              */
+  --bg-tertiary:  #3d3d3d;  /* Slightly lighter tertiary surfaces */
+
+  /* Light text on dark backgrounds */
+  --text-primary:   #ffffff; /* White for primary text            */
+  --text-secondary: #cccccc; /* Light gray for secondary text     */
+  --text-muted:     #999999; /* Same muted gray as light mode     */
+
+  /* Dark borders & stronger shadows */
+  --border-color: #404040;       /* Dark border for inputs/cards     */
+  --shadow:       rgba(0, 0, 0, 0.3);  /* Deeper shadow for dark mode    */
+  --shadow-hover: rgba(0, 0, 0, 0.4);  /* Stronger hover shadow          */
+}
+
+/* ===================================================================== */
+/* Core Element Styles                                                   */
+/* These styles utilize the theme variables defined above.              */
+/* --------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------------- */
+/* Page Body                                                            */
+/* Sets the base background and text color, with a smooth transition   */
+/* when switching themes.                                               */
+/* ------------------------------------------------------------------- */
+body {
+  background-color: var(--bg-primary);
+  color:            var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ------------------------------------------------------------------- */
+/* Card Component                                                       */
+/* Applies consistent background, border, and shadow across all cards. */
+/* ------------------------------------------------------------------- */
+.card {
+  background:   var(--bg-secondary);
+  border:       1px solid var(--border-color);
+  box-shadow:   0 4px 6px var(--shadow);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  /* Intensify shadow on hover for emphasis */
+  box-shadow: 0 8px 25px var(--shadow-hover);
+}
+
+/* ------------------------------------------------------------------- */
+/* Form Controls                                                         */
+/* Ensures inputs and textareas match theme surfaces and text color.   */
+/* ------------------------------------------------------------------- */
+.form-control {
+  background-color: var(--bg-secondary);
+  border:           1px solid var(--border-color);
+  color:            var(--text-primary);
+}
+
+.form-control:focus {
+  /* Keep background consistent and ensure text remains legible */
+  background-color: var(--bg-secondary);
+  color:            var(--text-primary);
+  /* Optionally, you could add a focus border color here if desired */
+}
