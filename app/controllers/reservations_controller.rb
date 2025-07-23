@@ -1,163 +1,227 @@
-class ReservationsController < ApplicationController
-  # ───────────────────────────────────────────────────────────────────────
-  # 1. Callback to load @reservation for any “member” actions
-  # ───────────────────────────────────────────────────────────────────────
-  before_action :set_reservation,
-                only: [:show, :edit, :update, :destroy, :confirm, :cancel]
-  #  ^^^^^^^^^^^^^^^
-  # :set_reservation is a private method (below) that runs *before* the listed
-  # actions. It finds the single Reservation record based on params[:id] and
-  # assigns it to @reservation, making it available in the action and view.
+# app/controllers/reservations_controller.rb
 
-  # ───────────────────────────────────────────────────────────────────────
-  # 2. GET /reservations
-  # ───────────────────────────────────────────────────────────────────────
+class ReservationsController < ApplicationController
+  # --------------------------------------------------------------------------
+  # ERROR HANDLING FOR JSON
+  # --------------------------------------------------------------------------
+  rescue_from ActiveRecord::RecordNotFound, with: :json_record_not_found
+
+  # Load @reservation for these actions
+  before_action :set_reservation, only: %i[show edit update destroy confirm cancel]
+
+  # GET /reservations
+  # • HTML: standard view
+  # • JSON: { success, data: { reservations, statuses }, meta? }
   def index
-    # Load *all* reservations, sorted by reservation_date ascending
     @reservations = Reservation.all.order(:reservation_date)
 
-    # — Filter by status if params[:status] is present *and* valid
-    if params[:status].present? &&
-       Reservation::STATUSES.include?(params[:status])
-      # Chains a WHERE clause on the existing relation
+    # Filter by status param if it's one of the allowed STATUSES
+    if params[:status].present? && Reservation::STATUSES.include?(params[:status])
       @reservations = @reservations.where(status: params[:status])
     end
 
-    # — Filter by a specific date if params[:date] is present
+    # Filter by exact date if parseable
     if params[:date].present?
-      # Try parsing the user‑supplied date; if it fails, date == nil
       date = Date.parse(params[:date]) rescue nil
       if date
-        # Restrict reservation_date to that full day
         @reservations = @reservations.where(
           reservation_date: date.beginning_of_day..date.end_of_day
         )
       end
     end
 
-    # At this point @reservations is an ActiveRecord::Relation that
-    # may be filtered by status and/or date.
+    respond_to do |format|
+      format.html
+      format.json do
+        payload = {
+          reservations: @reservations.map { |r| reservation_json(r) },
+          statuses:     Reservation::STATUSES
+        }
+        meta = { total: @reservations.size }
+
+        render_success(payload, meta: meta)
+      end
+    end
   end
 
-  # ───────────────────────────────────────────────────────────────────────
-  # 3. GET /reservations/:id
-  # ───────────────────────────────────────────────────────────────────────
+  # GET /reservations/:id
   def show
-    # Empty because set_reservation already loaded @reservation.
-    # Rails will implicitly render app/views/reservations/show.html.erb.
+    respond_to do |format|
+      format.html
+      format.json { render_success(reservation_json(@reservation)) }
+    end
   end
 
-  # ───────────────────────────────────────────────────────────────────────
-  # 4. GET /reservations/new
-  # ───────────────────────────────────────────────────────────────────────
-  def new
-    @reservation = Reservation.new
-    # Pre‑set a default reservation_date: tomorrow at 7pm
-    @reservation.reservation_date =
-      1.day.from_now.change(hour: 19, min: 0)
-  end
-
-  # ───────────────────────────────────────────────────────────────────────
-  # 5. POST /reservations
-  # ───────────────────────────────────────────────────────────────────────
+  # POST /reservations
   def create
-    # Build a new Reservation using only the safe params (see reservation_params)
     @reservation = Reservation.new(reservation_params)
 
     if @reservation.save
-      # Synchronously send a confirmation email; rescue nil so errors here
-      # don’t break the user flow
+      # Fire off a confirmation email (fail silently if mail errors)
       ReservationMailer.confirmation(@reservation).deliver_now rescue nil
 
-      # Redirect to the #show page for this reservation
-      redirect_to @reservation,
-                  notice: 'Your reservation has been submitted!
-                           We will confirm it shortly.'
+      respond_to do |format|
+        format.html do
+          redirect_to @reservation, notice: 'Your reservation has been submitted! We will confirm it shortly.'
+        end
+
+        format.json do
+          render_success(
+            reservation_json(@reservation),
+            status: :created
+          )
+        end
+      end
     else
-      # Validation failed—@reservation.errors is populated—and re‑render form
-      render :new
+      respond_to do |format|
+        format.html { render :new }
+        format.json do
+          render_error(
+            'Validation failed',
+            status: :unprocessable_entity,
+            errors: @reservation.errors.full_messages
+          )
+        end
+      end
     end
   end
 
-  # ───────────────────────────────────────────────────────────────────────
-  # 6. GET /reservations/:id/edit
-  # ───────────────────────────────────────────────────────────────────────
-  def edit
-    # Empty: @reservation is already loaded. Rails will render edit.html.erb.
-  end
-
-  # ───────────────────────────────────────────────────────────────────────
-  # 7. PATCH/PUT /reservations/:id
-  # ───────────────────────────────────────────────────────────────────────
+  # PATCH/PUT /reservations/:id
   def update
     if @reservation.update(reservation_params)
-      # On success, redirect back to the show page
-      redirect_to @reservation,
-                  notice: 'Reservation was successfully updated.'
+      respond_to do |format|
+        format.html do
+          redirect_to @reservation, notice: 'Reservation was successfully updated.'
+        end
+
+        format.json do
+          render_success(reservation_json(@reservation))
+        end
+      end
     else
-      # On validation failure, re‑render the edit form
-      render :edit
+      respond_to do |format|
+        format.html { render :edit }
+        format.json do
+          render_error(
+            'Validation failed',
+            status: :unprocessable_entity,
+            errors: @reservation.errors.full_messages
+          )
+        end
+      end
     end
   end
 
-  # ───────────────────────────────────────────────────────────────────────
-  # 8. DELETE /reservations/:id
-  # ───────────────────────────────────────────────────────────────────────
+  # DELETE /reservations/:id
   def destroy
     @reservation.destroy
-    # After deletion, go back to the list of all reservations
-    redirect_to reservations_url,
-                notice: 'Reservation was cancelled.'
-  end
 
-  # ───────────────────────────────────────────────────────────────────────
-  # 9. Custom Member Action: confirm
-  #    PUT/PATCH /reservations/:id/confirm
-  # ───────────────────────────────────────────────────────────────────────
-  def confirm
-    # Directly flip the status to “confirmed” (no validation)
-    @reservation.update(status: 'confirmed')
-    redirect_to @reservation, notice: 'Reservation confirmed!'
-  end
-
-  # ───────────────────────────────────────────────────────────────────────
-  # 10. Custom Member Action: cancel
-  #     PUT/PATCH /reservations/:id/cancel
-  # ───────────────────────────────────────────────────────────────────────
-  def cancel
-    # Assumes your Reservation model defines #can_be_cancelled?
-    if @reservation.can_be_cancelled?
-      @reservation.update(status: 'cancelled')
-      redirect_to reservations_path, notice: 'Reservation cancelled.'
-    else
-      # If business logic forbids cancellation, show an alert
-      redirect_to @reservation,
-                  alert: 'This reservation cannot be cancelled.'
+    respond_to do |format|
+      format.html { redirect_to reservations_url, notice: 'Reservation was cancelled.' }
+      format.json { render_success({}, status: :no_content) }
     end
   end
 
-  # ───────────────────────────────────────────────────────────────────────
-  # 11. Private Helpers
-  # ───────────────────────────────────────────────────────────────────────
-  private
+  # PUT/PATCH /reservations/:id/confirm
+  def confirm
+    @reservation.update(status: 'confirmed')
 
-  # Loads the single record based on the URL :id
-  def set_reservation
-    @reservation = Reservation.find(params[:id])
-    # params[:id] is pulled from the route /reservations/:id
+    respond_to do |format|
+      format.html { redirect_to @reservation, notice: 'Reservation confirmed!' }
+      format.json { render_success(reservation_json(@reservation)) }
+    end
   end
 
-  # Strong‐parameters: whitelist only these form fields for mass assignment
+  # PUT/PATCH /reservations/:id/cancel
+  def cancel
+    if @reservation.can_be_cancelled?
+      @reservation.update(status: 'cancelled')
+
+      respond_to do |format|
+        format.html { redirect_to reservations_path, notice: 'Reservation cancelled.' }
+        format.json { render_success(reservation_json(@reservation)) }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to @reservation, alert: 'This reservation cannot be cancelled.' }
+        format.json do
+          render_error(
+            'Cannot cancel reservation',
+            status: :unprocessable_entity,
+            errors: ['This reservation is not eligible for cancellation']
+          )
+        end
+      end
+    end
+  end
+
+  private
+
+  # --------------------------------------------------------------------------
+  # CALLBACKS
+  # --------------------------------------------------------------------------
+
+  def set_reservation
+    @reservation = Reservation.find(params[:id])
+  end
+
   def reservation_params
-    params.require(:reservation)
-          .permit( :customer_name,
-                   :customer_email,
-                   :customer_phone,
-                   :party_size,
-                   :reservation_date,
-                   :special_requests )
-    # If any of these are missing or extra keys are present, Rails will: 
-    #  - raise ParameterMissing if the top‐level :reservation key is absent
-    #  - silently ignore any keys not explicitly permitted
+    params.require(:reservation).permit(
+      :customer_name,
+      :customer_email,
+      :customer_phone,
+      :special_requests
+    )
+  end
+
+  # --------------------------------------------------------------------------
+  # SERIALIZATION HELPER
+  # --------------------------------------------------------------------------
+
+  def reservation_json(reservation)
+    {
+      id:               reservation.id,
+      customer_name:    reservation.customer_name,
+      customer_email:   reservation.customer_email,
+      customer_phone:   reservation.customer_phone,
+      party_size:       reservation.party_size,
+      reservation_date: reservation.reservation_date.iso8601,
+      formatted_date:   reservation.formatted_date,
+      special_requests: reservation.special_requests,
+      status:           reservation.status,
+      can_be_cancelled: reservation.can_be_cancelled?,
+      created_at:       reservation.created_at.iso8601,
+      updated_at:       reservation.updated_at.iso8601
+    }
+  end
+
+  # --------------------------------------------------------------------------
+  # JSON RENDERING HELPERS
+  # --------------------------------------------------------------------------
+
+  def render_success(data = {}, status: :ok, meta: nil)
+    envelope = { success: true, data: data }
+    envelope[:meta] = meta if meta
+    render json: envelope, status: status
+  end
+
+  def render_error(message, status: :unprocessable_entity, errors: [])
+    render json: {
+      success: false,
+      error:   message,
+      errors:  errors
+    }, status: status
+  end
+
+  # --------------------------------------------------------------------------
+  # JSON ERROR HANDLER
+  # --------------------------------------------------------------------------
+
+  def json_record_not_found(exception)
+    render_error(
+      'Record not found',
+      status: :not_found,
+      errors: [exception.message]
+    )
   end
 end

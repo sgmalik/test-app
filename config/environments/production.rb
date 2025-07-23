@@ -87,4 +87,10 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  
+  # API setup
+  config.api_only = false # supports full Rails stack, not just API mode
+
+  # Ensure proper error handling in production
+  config.consider_all_requests_local = false
 end

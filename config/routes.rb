@@ -28,4 +28,23 @@ Rails.application.routes.draw do
   end
 
   get 'book', to: 'reservations#new'
+  # API routes
+  namespace :api do
+    namespace :v1 do
+      resources :menu_items, only: [:index, :show, :create, :update,
+      :destroy]
+      resources :reservations, only: [:index, :show, :create, :update,
+      :destroy] do
+        member do
+          patch :confirm
+          patch :cancel
+        end
+      end
+
+      # Documentation routes
+      get 'docs', to: 'docs#index'
+      get 'docs/menu_items', to: 'docs#menu_items_schema'
+      get 'docs/reservations', to: 'docs#reservations_schema'
+    end
+  end
 end

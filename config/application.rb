@@ -23,5 +23,8 @@ module TestApp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # API middleware
+    config.middleware.use ApiRequestLogger
   end
 end
