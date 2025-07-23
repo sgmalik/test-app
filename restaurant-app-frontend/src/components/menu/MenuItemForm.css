@@ -1,0 +1,94 @@
+/* src/components/menu/MenuItemForm.css */
+/* --------------------------------------------------------------------- */
+/* MenuItemForm Styles                                                   */
+/* --------------------------------------------------------------------- */
+
+/*
+  .menu-item-form
+  Centers the form on the page and constrains its width for readability.
+*/
+.menu-item-form {
+  max-width: 800px;            /* Limit form width to 800px */
+  margin: 0 auto;              /* Center horizontally */
+}
+
+/*
+  .form-container
+  White card background with padding and subtle shadow for emphasis.
+*/
+.form-container {
+  background: #fff;            /* White background for contrast */
+  padding: 40px;               /* Inner spacing around form elements */
+  border-radius: 12px;         /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft drop shadow */
+}
+
+/*
+  .menu-item-form-content .form-group
+  Spacing between individual form fields (groups of label+control).
+*/
+.menu-item-form-content .form-group {
+  margin-bottom: 25px;         /* Vertical gap between fields */
+}
+
+/*
+  .checkbox-group
+  Flex container to align checkbox and its label text horizontally.
+*/
+.checkbox-group {
+  display: flex;               /* Place children in a row */
+  align-items: center;         /* Vertically center items */
+  gap: 10px;                   /* Space between checkbox and label */
+}
+
+/*
+  .checkbox-label
+  Label wrapping the checkbox input and text, making the entire area clickable.
+*/
+.checkbox-label {
+  display: flex;               /* Row layout for input + text */
+  align-items: center;         /* Center vertically */
+  cursor: pointer;             /* Pointer cursor to indicate click area */
+  font-weight: normal;         /* Standard font weight */
+}
+
+/*
+  Checkbox input inside the label
+  Adjust margin to separate from the label text.
+*/
+.checkbox-label input[type="checkbox"] {
+  margin-right: 10px;          /* Space between checkbox and text */
+  width: auto;                 /* Keep default checkbox size */
+}
+
+/*
+  .form-actions
+  Container for submit and cancel buttons, with top border for separation.
+*/
+.form-actions {
+  display: flex;               /* Place buttons in a row */
+  gap: 15px;                   /* Horizontal gap between buttons */
+  margin-top: 30px;            /* Space above button row */
+  padding-top: 20px;           /* Padding above border line */
+  border-top: 1px solid #eee; /* Light separator line */
+}
+
+/* --------------------------------------------------------------------- */
+/* Responsive Adjustments                                                  */
+/* --------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  /*
+    On narrow screens, reduce container padding for better fit
+  */
+  .form-container {
+    padding: 20px;             /* Halve padding on mobile */
+  }
+
+  /*
+    Stack action buttons vertically on mobile for full-width tap targets
+  */
+  .form-actions {
+    flex-direction: column;    /* Column layout instead of row */
+  }
+}

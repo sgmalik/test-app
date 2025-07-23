@@ -1,0 +1,90 @@
+/* src/components/menu/MenuItemDetail.css */
+/* --------------------------------------------------------------------- */
+/* MenuItemDetail Styles                                                 */
+/* --------------------------------------------------------------------- */
+
+/*
+  .menu-item-detail
+  Centers the detail view and constrains width for readability.
+*/
+.menu-item-detail {
+  max-width: 700px;            /* Reasonable reading width */
+  margin: 40px auto;           /* Center vertically and horizontally */
+  padding: 0 20px;             /* Side padding */
+  color: #333;                 /* Dark gray text */
+}
+
+/*
+  Main heading for the item name
+*/
+.menu-item-detail h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  color: #343a40;
+}
+
+/*
+  Category line: italic label and value
+*/
+.menu-item-detail .category {
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+/*
+  Price line: bold label, accent color for price
+*/
+.menu-item-detail .price {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+.menu-item-detail .price strong {
+  margin-right: 5px;
+}
+
+/*
+  Badge for unavailable status
+*/
+.menu-item-detail .badge {
+  margin-left: 10px;
+}
+
+/*
+  Description block: regular paragraph styling
+*/
+.menu-item-detail .description p {
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/*
+  Actions row: button layouts with spacing
+*/
+.menu-item-detail .actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;             /* Wrap buttons on small screens */
+}
+
+/*
+  Button variants in this context:
+  - .btn-secondary for Edit
+  - .btn-danger    for Delete
+  - .btn-link      for Back link
+*/
+.menu-item-detail .btn {
+  padding: 10px 20px;
+}
+
+/*
+  Responsive tweaks: full-width buttons on narrow screens
+*/
+@media (max-width: 600px) {
+  .menu-item-detail .actions {
+    flex-direction: column;
+  }
+  .menu-item-detail .btn {
+    width: 100%;
+    text-align: center;
+  }
+}

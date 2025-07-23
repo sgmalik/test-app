@@ -1,0 +1,60 @@
+/* src/components/home/About.css */
+/* --------------------------------------------------------------------- */
+/* About Page Styles                                                     */
+/* --------------------------------------------------------------------- */
+
+/*
+  .about-page
+  Root container for the About page. Applies horizontal padding
+  and vertical spacing for readability.
+*/
+.about-page {
+  max-width: 800px;            /* Constrain content width for readability */
+  margin: 0 auto;              /* Center the container */
+  padding: 20px;               /* Space inside container */
+  line-height: 1.6;            /* Comfortable line spacing */
+  color: #333;                 /* Dark gray text color */
+}
+
+/*
+  Headings: H1 and H2 styling for clear hierarchy
+*/
+.about-page h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+  color: #343a40;
+}
+.about-page h2 {
+  font-size: 2em;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: #667eea;              /* Accent color */
+}
+
+/*
+  Paragraphs: body text styling
+*/
+.about-page p {
+  margin-bottom: 1em;
+}
+
+/*
+  Lists: style for core values list
+*/
+.about-page ul {
+  list-style: disc inside;
+  margin-left: 1em;
+}
+.about-page ul li {
+  margin-bottom: 0.5em;
+}
+
+/*
+  Inline code tags: highlight technology names
+*/
+.about-page code {
+  background: #f1f1f1;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: monospace;
+}

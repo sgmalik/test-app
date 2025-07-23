@@ -1,0 +1,164 @@
+/* src/components/home/Home.css */
+/* --------------------------------------------------------------------- */
+/* Home Page Styles                                                       */
+/* --------------------------------------------------------------------- */
+
+/*
+  .home-page
+  Root container for the home page. Using padding 0 since sections
+  themselves handle their own spacing.
+*/
+.home-page {
+  padding: 0;
+}
+
+/* --------------------------------------------------------------------- */
+/* Hero Section (Top Banner)                                               */
+/* --------------------------------------------------------------------- */
+
+/*
+  .hero-section
+  A full-width banner with centered text, gradient background,
+  generous padding for visual impact, and rounded corners.
+*/
+.hero-section {
+  text-align: center;                              /* Center headline and text */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                                    /* Indigo-purple gradient */
+  color: white;                                    /* White text for high contrast */
+  padding: 100px 20px;                             /* Top/bottom 100px, sides 20px */
+  margin-bottom: 60px;                             /* Space below banner */
+  border-radius: 12px;                             /* Rounded outer corners */
+  position: relative;                              /* For positioning the ::before overlay */
+  overflow: hidden;                                /* Clip the SVG pattern overlay */
+}
+
+/*
+  .hero-section:before
+  A subtle dotted SVG overlay using a data URL pattern,
+  to add visual texture on top of the gradient background.
+*/
+.hero-section:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Inline SVG pattern: small, semi-transparent white dots */
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hero-pattern" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23hero-pattern)"/></svg>');
+}
+
+/*
+  .hero-section h1
+  Main headline styling: large font, space below, and raised
+  above the overlay with z-index.
+*/
+.hero-section h1 {
+  font-size: 4em;      /* Very large text for impact */
+  margin-bottom: 30px; /* Space between headline and subtext */
+  position: relative;
+  z-index: 1;          /* Ensure text sits above the ::before overlay */
+}
+
+/*
+  .hero-section p
+  Subheading styling: slightly smaller than headline and semi-transparent
+  for a softer look.
+*/
+.hero-section p {
+  font-size: 1.4em;    /* Prominent but secondary to h1 */
+  margin-bottom: 40px; /* Space before buttons */
+  opacity: 0.9;        /* Slightly fade text for depth */
+  position: relative;
+  z-index: 1;
+}
+
+/*
+  .hero-buttons
+  Flex container for the primary action buttons, centered,
+  raised above the overlay.
+*/
+.hero-buttons {
+  display: flex;
+  gap: 20px;           /* Space between buttons */
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------- */
+/* Features Section                                                        */
+/* --------------------------------------------------------------------- */
+
+/*
+  .features
+  Wrapper for the features grid; adds bottom margin for spacing
+  before the next section.
+*/
+.features {
+  margin-bottom: 60px;
+}
+
+/*
+  .feature-grid
+  Responsive CSS Grid layout: automatically fit as many
+  300px-wide cards as possible, wrapping to new rows.
+*/
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;           /* Grid gutter between cards */
+  margin-bottom: 60px; /* Space below the grid */
+}
+
+/*
+  .feature-icon
+  Large icon or emoji in each feature card for visual cue.
+*/
+.feature-icon {
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+
+/* --------------------------------------------------------------------- */
+/* Call-To-Action Section                                                  */
+/* --------------------------------------------------------------------- */
+
+/*
+  .cta-section
+  Adds top margin to separate from previous content.
+*/
+.cta-section {
+  margin-top: 60px;
+}
+
+/*
+  .cta-buttons
+  Flex container similar to .hero-buttons, spacing CTA buttons
+  evenly.
+*/
+.cta-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* --------------------------------------------------------------------- */
+/* Responsive Adjustments                                                   */
+/* --------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  /* Reduce headline size on smaller screens */
+  .hero-section h1 {
+    font-size: 2.5em;
+  }
+
+  /* Stack hero and CTA buttons vertically on mobile */
+  .hero-buttons,
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}

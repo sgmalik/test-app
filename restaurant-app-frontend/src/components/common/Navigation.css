@@ -1,0 +1,122 @@
+/* src/components/common/Navigation.css */
+/* --------------------------------------------------------------------- */
+/* Navigation Bar Styles                                                 */
+/* --------------------------------------------------------------------- */
+
+/*
+  .navbar
+  The outermost container for the navigation bar. Fixed at the top,
+  with a gradient background and subtle drop shadow.
+*/
+.navbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 0;                            /* Remove default vertical padding */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow below the bar */
+  position: sticky;                     /* Sticks to top of viewport on scroll */
+  top: 0;                               /* Align to top */
+  z-index: 1000;                        /* Above most other content */
+}
+
+/*
+  .nav-container
+  Centers the nav content, sets max width, and lays out brand + links.
+*/
+.nav-container {
+  max-width: 1200px;                    /* Prevent nav from stretching too wide */
+  margin: 0 auto;                       /* Center horizontally */
+  display: flex;                        /* Use flexbox for alignment */
+  justify-content: space-between;       /* Spread brand and links apart */
+  align-items: center;                  /* Vertically center items */
+  padding: 0 20px;                      /* Horizontal gutter */
+  min-height: 70px;                     /* Ensure a minimum tappable height */
+}
+
+/*
+  .nav-brand
+  The site logo or brand name on the left side of the nav bar.
+*/
+.nav-brand {
+  color: white;                         /* White text for contrast */
+  font-size: 1.8em;                     /* Larger font for emphasis */
+  font-weight: bold;                    /* Bold weight for visibility */
+  text-decoration: none;                /* Remove underline */
+  transition: transform 0.3s ease;      /* Smooth scaling on hover */
+}
+.nav-brand:hover {
+  color: white;                         /* Keep text white on hover */
+  text-decoration: none;                /* No underline */
+  transform: scale(1.05);               /* Slightly enlarge brand */
+}
+
+/*
+  .nav-links
+  Container for individual link items. Uses flexbox to layout horizontally.
+*/
+.nav-links {
+  display: flex;                        /* Place links in a row */
+  gap: 0;                               /* No extra gap; links use padding */
+}
+
+/*
+  .nav-link
+  Styles for each navigation link. White text, padded clickable area,
+  with hover and active states.
+*/
+.nav-link {
+  color: white;                         /* White link text */
+  text-decoration: none;                /* Remove underline */
+  padding: 25px 20px;                   /* Comfortable click area */
+  font-weight: 500;                     /* Medium weight text */
+  transition: background-color 0.3s ease; /* Smooth background change */
+  position: relative;                   /* Establish new stacking context for ::after */
+}
+
+/*
+  Hover & Active State
+  Applies a translucent white background and triggers underline animation.
+*/
+.nav-link:hover,
+.nav-link.active {
+  background-color: rgba(255, 255, 255, 0.1); /* Light overlay on hover/active */
+  color: white;                             /* Ensure text stays white */
+  text-decoration: none;                    /* No underline on text */
+}
+
+/*
+  Underline Animation (::after)
+  Creates a sliding underline effect on hover/active states.
+*/
+.nav-link:after {
+  content: '';                           /* Necessary to render pseudo-element */
+  position: absolute;                   /* Position relative to .nav-link */
+  bottom: 0;                            /* At the bottom of link text */
+  left: 50%;                            /* Center horizontally */
+  width: 0;                             /* Start with zero width */
+  height: 3px;                          /* Underline thickness */
+  background-color: white;              /* White underline */
+  transition: all 0.3s ease;            /* Animate width expansion */
+  transform: translateX(-50%);          /* Shift origin back to center */
+}
+.nav-link:hover:after,
+.nav-link.active:after {
+  width: 80%;                           /* Expand underline to 80% of link width */
+}
+
+/*
+  Mobile Responsive Styles
+  Stack nav items vertically on narrow viewports.
+*/
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;             /* Stack brand above links */
+    padding: 10px 20px;                 /* Slightly more vertical padding */
+  }
+  .nav-links {
+    margin-top: 10px;                   /* Space between brand and links */
+    flex-direction: column;             /* Stack links vertically */
+    width: 100%;                        /* Full-width links on mobile */
+  }
+  .nav-link {
+    padding: 15px;                      /* Smaller padding for mobile */
+  }
+}

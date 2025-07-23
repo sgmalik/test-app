@@ -1,0 +1,62 @@
+/* src/components/common/Footer.css */
+/* --------------------------------------------------------------------- */
+/* Footer Component Styles                                               */
+/* --------------------------------------------------------------------- */
+
+/*
+  .footer
+  The outermost <footer> element spans full width, with dark background,
+  white text, and vertical padding. A top margin separates it from main content.
+*/
+.footer {
+  background-color: #343a40;   /* Dark charcoal background for contrast */
+  color: white;                /* White text for readability */
+  padding: 40px 0;             /* 40px padding top & bottom, 0 left & right */
+  margin-top: 80px;            /* Space above footer to separate from content */
+}
+
+/*
+  .footer-content
+  Constrains footer content width, centers it, and lays out sections
+  in a responsive CSS Grid with equal-width columns.
+*/
+.footer-content {
+  max-width: 1200px;           /* Prevent footer content from stretching too wide */
+  margin: 0 auto;              /* Center the grid container horizontally */
+  padding: 0 20px;             /* Horizontal gutter inside container */
+  display: grid;               /* Use CSS Grid for layout */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                               /* Create as many 250px-wide columns as fit */
+  gap: 40px;                   /* 40px gap between grid items */
+}
+
+/*
+  .footer-section h3
+  Section headings within footer. Styled with bottom margin and
+  accent color matching site primary gradient.
+*/
+.footer-section h3 {
+  margin-bottom: 20px;         /* Space below heading */
+  color: #667eea;              /* Indigo accent color for headings */
+}
+
+/*
+  .footer-section p,
+  .footer-section a
+  Paragraphs and links within footer sections share a muted color
+  and uniform bottom margin for vertical rhythm.
+*/
+.footer-section p,
+.footer-section a {
+  color: #adb5bd;              /* Light gray text for secondary content */
+  margin-bottom: 10px;         /* Space after each line item */
+}
+
+/*
+  .footer-section a:hover
+  On hover, links change to white to indicate interactivity
+  against the dark background.
+*/
+.footer-section a:hover {
+  color: white;                /* Brighten link text on hover */
+}

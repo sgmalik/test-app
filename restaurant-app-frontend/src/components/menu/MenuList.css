@@ -1,0 +1,274 @@
+/* src/components/menu/MenuList.css */
+/* --------------------------------------------------------------------- */
+/* MenuList Styles                                                       */
+/* --------------------------------------------------------------------- */
+
+/*
+  .menu-list
+  Root container for the menu list page. No extra padding
+  because child elements handle spacing internally.
+*/
+.menu-list {
+  padding: 0;
+}
+
+/*
+  .controls-row
+  Flex container that holds the "Add New Item" button and filter group.
+  Aligns items horizontally with space between and vertical centering.
+*/
+.controls-row {
+  display: flex;               /* Lay out children in a row */
+  justify-content: space-between; /* Place edges at extremes */
+  align-items: center;         /* Vertically center children */
+}
+
+/*
+  .filters
+  Flex container for multiple filter dropdowns.
+  Provides consistent spacing between select elements.
+*/
+.filters {
+  display: flex;               /* Row layout for filter controls */
+  gap: 15px;                   /* Horizontal gap between selects */
+  align-items: center;         /* Center dropdowns vertically */
+}
+
+/*
+  Restrict width of filter dropdowns to a reasonable minimum
+*/
+.filters .form-control {
+  width: auto;                 /* Allow width to shrink/grow with content */
+  min-width: 150px;            /* Ensure dropdown is not too narrow */
+}
+
+/*
+  .menu-display
+  Container for the list of categories and item cards.
+  Adds vertical spacing above the items grid.
+*/
+.menu-display {
+  margin-top: 30px;            /* Space above the grid of items */
+}
+
+/*
+  .menu-category-section
+  Wrapper for each category group, spacing them vertically.
+*/
+.menu-category-section {
+  margin-bottom: 50px;         /* Space between category sections */
+}
+
+/*
+  .category-header
+  Centers the category title and places a decorative line below.
+  Uses relative positioning to allow child positioning if needed.
+*/
+.category-header {
+  text-align: center;          /* Center the title text */
+  margin-bottom: 40px;         /* Space below header before items */
+  position: relative;          /* Establish containing block for absolute elements */
+}
+
+/*
+  .category-header h2
+  Styles for the category title: color, size, and inline-block layout
+*/
+.category-header h2 {
+  color: #343a40;              /* Dark gray text color */
+  font-size: 2.5em;            /* Large headline size */
+  margin-bottom: 15px;         /* Space before the line */
+  display: inline-block;       /* Shrink to content width */
+  position: relative;          /* For potential pseudo-elements */
+}
+
+/*
+  .category-line
+  Decorative gradient line below each category title.
+  Centered automatically with margin auto.
+*/
+.category-line {
+  width: 100px;                /* Fixed length */
+  height: 3px;                 /* Thin line */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  margin: 0 auto;              /* Center horizontally */
+  border-radius: 2px;          /* Slightly rounded ends */
+}
+
+/*
+  .menu-items-grid
+  Responsive CSS Grid for item cards: fills as many 400px columns as fit,
+  wrapping to new rows automatically.
+*/
+.menu-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 25px;                   /* Space between cards */
+}
+
+/* --------------------------------------------------------------------- */
+/* Menu Item Card Styles                                                  */
+/* --------------------------------------------------------------------- */
+
+/*
+  .menu-item-card
+  The card container for each menu item.
+  White background, rounded corners, and a left border accent.
+*/
+.menu-item-card {
+  background: #fff;            /* White card background */
+  border-radius: 12px;         /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle drop shadow */
+  overflow: hidden;            /* Clip overflowing child elements */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 5px solid #667eea; /* Indigo accent line */
+}
+
+/*
+  Hover state: lift card and intensify shadow
+*/
+.menu-item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/*
+  .menu-item-card.unavailable
+  Visually dim unavailable items and change accent color to warning red.
+*/
+.menu-item-card.unavailable {
+  opacity: 0.7;                 /* Semi-transparent to indicate disabled state */
+  border-left-color: #dc3545;  /* Red accent for unavailability */
+}
+
+/*
+  .item-content
+  Inner padding for card content
+*/
+.item-content {
+  padding: 25px;
+}
+
+/*
+  .item-header
+  Flex container for the item title and price.
+  Aligns them on opposite ends of the row.
+*/
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+/*
+  .item-name
+  Styles for the menu item name link: color, weight, and flex growth.
+*/
+.item-name {
+  color: #343a40;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.3em;
+  flex-grow: 1;                 /* Occupy remaining horizontal space */
+  margin-right: 15px;           /* Space before price */
+}
+.item-name:hover {
+  color: #667eea;              /* Change to accent color on hover */
+}
+
+/*
+  .price
+  Bold, green price text. Prevents wrapping to keep price on one line.
+*/
+.price {
+  font-weight: bold;
+  color: #28a745;              /* Green to indicate value */
+  font-size: 1.4em;
+  white-space: nowrap;         /* Keep price together */
+}
+
+/*
+  .description
+  Style for the item description paragraph.
+*/
+.description {
+  color: #666;                 /* Medium gray for body text */
+  line-height: 1.6;            /* Comfortable line spacing */
+  margin-bottom: 15px;
+}
+
+/*
+  .item-actions
+  Container for action buttons at the bottom of the card.
+  Light background and top border separate it from content.
+*/
+.item-actions {
+  display: flex;
+  gap: 10px;                   /* Space between buttons */
+  padding: 15px 25px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+}
+
+/*
+  .empty-state .empty-icon
+  Icon styling when there are no items to display.
+*/
+.empty-state .empty-icon {
+  font-size: 4em;
+  margin-bottom: 20px;
+}
+
+/* --------------------------------------------------------------------- */
+/* Badge Component Styles                                                 */
+/* --------------------------------------------------------------------- */
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+.badge-warning {
+  background-color: #ffc107;   /* Amber background */
+  color: #212529;              /* Dark text for readability */
+}
+
+/* --------------------------------------------------------------------- */
+/* Responsive Adjustments                                                  */
+/* --------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  /* Stack controls vertically on small screens */
+  .controls-row {
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  /* Center and wrap filters on mobile */
+  .filters {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Make each card span full width on mobile */
+  .menu-items-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Stack title and price vertically */
+  .item-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Add top margin to price when on new line */
+  .price {
+    margin-top: 10px;
+  }
+}
