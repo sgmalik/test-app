@@ -12,9 +12,6 @@ class Api::V1::BaseController < ApplicationController
   # since API clients may not include authenticity tokens.
   skip_before_action :verify_authenticity_token
 
-  # Ensure all actions respond with JSON format by default
-  respond_to :json
-
   # ---------------------------------------------------------------------
   # Exception Handling
   # ---------------------------------------------------------------------
