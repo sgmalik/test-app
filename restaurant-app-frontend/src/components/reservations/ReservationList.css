@@ -1,0 +1,223 @@
+/* src/components/reservations/ReservationList.css */
+/* --------------------------------------------------------------------- */
+/* ReservationList Component Styles                                      */
+/* --------------------------------------------------------------------- */
+
+/*
+  .reservation-list
+  Root container for the reservations page. Removes default padding
+  to allow full-width content alignment.
+*/
+.reservation-list {
+  padding: 0;
+}
+
+/*
+  .reservation-controls
+  Wrapper for the filter controls and "New Reservation" button.
+  Adds space below to separate from the list.
+*/
+.reservation-controls {
+  margin-bottom: 30px;
+}
+
+/*
+  .controls-row
+  Horizontal layout for the controls: left-aligned button,
+  right-aligned filters for easy access.
+*/
+.controls-row {
+  display: flex;                 /* Row layout */
+  justify-content: space-between;/* Spread items to edges */
+  align-items: center;           /* Vertical alignment */
+}
+
+/*
+  .filters
+  Container for filter inputs (dropdowns and date fields).
+  Uses flex layout with gap for consistent spacing.
+*/
+.filters {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/*
+  .filters .form-control
+  Override default input width to "auto" and
+  ensure a minimum width for usability.
+*/
+.filters .form-control {
+  width: auto;
+  min-width: 150px;
+}
+
+/*
+  .reservations-display
+  Wrapper around the grouped reservation cards.
+  Adds top margin to separate from the controls.
+*/
+.reservations-display {
+  margin-top: 30px;
+}
+
+/*
+  .date-group
+  Each date section (e.g., "Monday, July 23, 2025").
+  Adds spacing below to distinguish groups.
+*/
+.date-group {
+  margin-bottom: 40px;
+}
+
+/*
+  .date-group h3
+  The header for each date group with accent styles:
+  • Indigo underline • Consistent padding • Font sizing
+*/
+.date-group h3 {
+  color: #343a40;                /* Dark gray text */
+  margin-bottom: 25px;           /* Space to cards */
+  padding: 15px 0;               /* Vertical padding */
+  border-bottom: 3px solid #667eea; /* Accent underline */
+  font-size: 1.5em;              /* Slightly larger text */
+}
+
+/*
+  .reservations-grid
+  Grid layout for the reservation cards:
+  • Responsive columns that fit at least 350px each
+  • Gap for spacing between cards
+*/
+.reservations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+/*
+  .reservation-card
+  Individual card styling:
+  • White background, rounded corners, subtle shadow
+  • Left border color indicates status
+  • Smooth hover lift and shadow intensify
+*/
+.reservation-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border-left: 5px solid #667eea; /* Default accent color */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.reservation-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/*
+  Status-specific card borders for quick visual cues:
+*/
+.reservation-card.status-pending   { border-left-color: #ffc107; }
+.reservation-card.status-confirmed { border-left-color: #28a745; }
+.reservation-card.status-cancelled { border-left-color: #dc3545; }
+.reservation-card.status-completed { border-left-color: #6c757d; }
+
+/*
+  .reservation-header
+  Top section of each card containing customer name and status badge.
+  Uses flex to align name left and badge right.
+*/
+.reservation-header {
+  padding: 20px 20px 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.reservation-header h4 {
+  margin: 0;
+  font-size: 1.3em;
+}
+.reservation-header a {
+  color: #343a40;
+  text-decoration: none;
+}
+.reservation-header a:hover {
+  color: #667eea;
+}
+
+/*
+  .status-badge
+  Small pill-shaped label to display reservation status.
+  Color-coded backgrounds matching card border colors.
+*/
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.status-badge.status-pending   { background: #fff3cd; color: #856404; }
+.status-badge.status-confirmed { background: #d4edda; color: #155724; }
+.status-badge.status-cancelled { background: #f8d7da; color: #721c24; }
+.status-badge.status-completed { background: #e2e3e5; color: #383d41; }
+
+/*
+  .reservation-details
+  Container for the reservation’s meta info (time, party size, etc.)
+*/
+.reservation-details {
+  padding: 0 20px 20px 20px;
+}
+.reservation-details p {
+  margin: 8px 0;
+  color: #555;
+  font-size: 0.95em;
+}
+
+/*
+  .reservation-actions
+  Footer area of the card with action buttons:
+  • Light background, top border for separation
+  • Flex layout with wrapping for small screens
+*/
+.reservation-actions {
+  padding: 15px 20px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/*
+  Empty state styling when no reservations match filters:
+*/
+.empty-state .empty-icon {
+  font-size: 4em;
+  margin-bottom: 20px;
+}
+
+/* --------------------------------------------------------------------- */
+/* Responsive Adjustments                                                 */
+/* --------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  /* Stack controls vertically on narrow screens */
+  .controls-row {
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+  }
+  /* Wrap filters to multiple lines if needed */
+  .filters {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  /* Single column layout for cards */
+  .reservations-grid {
+    grid-template-columns: 1fr;
+  }
+}

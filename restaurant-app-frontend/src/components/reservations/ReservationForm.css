@@ -1,0 +1,135 @@
+/* src/components/reservations/ReservationForm.css */
+/* --------------------------------------------------------------------- */
+/* ReservationForm Component Styles                                       */
+/* --------------------------------------------------------------------- */
+
+/*
+  .reservation-form
+  Root container for the reservation form page. Removes default padding
+  to allow full-width layout alignment.
+*/
+.reservation-form {
+  padding: 0;
+}
+
+/*
+  .reservation-container
+  Grid layout to position informational sidebar and form side by side:
+  • 1fr for sidebar, 2fr for main form
+  • 40px gap for breathing room
+  • Constrained to a max width and centered on screen
+*/
+.reservation-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/*
+  .reservation-info
+  Styles the sidebar containing restaurant info:
+  • Uses fit-content to shrink to its inner content height
+  • Sticky positioning to remain visible on scroll, 100px from top
+*/
+.reservation-info {
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+/*
+  .info-item
+  Individual blocks within the sidebar (e.g., hours, contact):
+  • Flex layout for icon + text
+  • Bottom padding and border for separation
+*/
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+.info-item:last-child {
+  margin-bottom: 0;            /* Remove bottom margin on last item */
+  border-bottom: none;         /* Remove border on last item */
+}
+
+/*
+  .info-icon
+  Placeholder for icons: larger font-size and spacing
+*/
+.info-icon {
+  font-size: 1.5em;
+  margin-right: 15px;
+  margin-top: 5px;
+}
+
+/*
+  .info-content
+  Styles for the text portion of each info-item:
+  • Strong text as section title
+  • Paragraph lines with muted color and smaller font
+*/
+.info-content strong {
+  display: block;
+  color: #343a40;
+  margin-bottom: 8px;
+  font-size: 1.1em;
+}
+.info-content p {
+  margin: 3px 0;
+  color: #666;
+  font-size: 0.95em;
+}
+
+/*
+  .reservation-form-card
+  Wrapper around the main form: white background and default card styling
+*/
+.reservation-form-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/*
+  .reservation-form-content .form-group
+  Adds bottom spacing between each form field group
+*/
+.reservation-form-content .form-group {
+  margin-bottom: 25px;
+}
+
+/*
+  .reservation-form-content .form-actions
+  Styles the button row at the bottom of the form:
+  • Horizontal layout with gap
+  • Top padding and border to separate from fields
+*/
+.reservation-form-content .form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+/* --------------------------------------------------------------------- */
+/* Responsive Adjustments                                                 */
+/* --------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .reservation-container {
+    grid-template-columns: 1fr; /* Stack sidebar and form vertically */
+    gap: 30px;
+  }
+  .reservation-info {
+    position: static;           /* Disable sticky on small screens */
+  }
+  .reservation-form-content .form-actions {
+    flex-direction: column;     /* Stack buttons vertically */
+  }
+}
