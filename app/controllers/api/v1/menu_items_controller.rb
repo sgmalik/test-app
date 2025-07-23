@@ -5,6 +5,7 @@
 # and uses JSONAPI-compliant serialization.
 class Api::V1::MenuItemsController < Api::V1::BaseController
   include ApiValidation
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :validate_pagination_params, only: [:index]
   # Load the menu item for actions that operate on a single record
   before_action :set_menu_item, only: [:show, :update, :destroy]

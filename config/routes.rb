@@ -31,6 +31,12 @@ Rails.application.routes.draw do
   # API routes
   namespace :api do
     namespace :v1 do
+      #authentication routes
+      post 'auth/login', to: 'auth#login'
+      post 'auth/register', to: 'auth#register'
+      delete 'auth/logout', to: 'auth#logout'
+      get 'auth/me', to: 'auth#me'
+
       resources :menu_items, only: [:index, :show, :create, :update,
       :destroy]
       resources :reservations, only: [:index, :show, :create, :update,

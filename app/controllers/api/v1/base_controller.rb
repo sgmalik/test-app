@@ -106,17 +106,50 @@ class Api::V1::BaseController < ApplicationController
   end
 
   # ---------------------------------------------------------------------
-  # Authentication Stubs
-  # Placeholder methods for future authentication implementation.
+  # Authentication & Authorization
   # ---------------------------------------------------------------------
 
-  # Returns the currently authenticated user (stub)
+  # Returns the currently authenticated user, based on a JWT in the
+  # `Authorization: Bearer <token>` header. Memoizes @current_user.
+  #
+  # If the token is missing, invalid, or the user ID is not found,
+  # returns nil.
   def current_user
-    nil
+    return @current_user if defined?(@current_user)
+
+    # Expect header format "Bearer <token>"
+    raw_token = request.headers['Authorization']&.split(' ')&.last
+    return @current_user = nil unless raw_token
+
+    begin
+      # Decode returns a hash like { user_id: 123, ... }
+      payload = JwtService.decode(raw_token)
+      @current_user = User.find(payload[:user_id])
+    rescue JWT::DecodeError, ActiveRecord::RecordNotFound
+      @current_user = nil
+    end
   end
 
-  # Enforce authentication before actions (stub)
+  # Ensures that a user is logged in. If not, renders a 401 error.
   def authenticate_user!
-    # To be implemented when authentication is added
+    return if current_user
+
+    render_error('Authentication required', :unauthorized)
+  end
+
+  # Ensures that the current user has the 'admin' role.
+  # If not authenticated or not an admin, renders a 403 error.
+  def require_admin!
+    unless current_user&.admin?
+      render_error('Admin access required', :forbidden)
+    end
+  end
+
+  # Ensures that the current user is staff (staff or admin).
+  # If not authenticated or not staff, renders a 403 error.
+  def require_staff!
+    unless current_user&.staff?
+      render_error('Staff access required', :forbidden)
+    end
   end
 end

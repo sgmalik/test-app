@@ -6,6 +6,7 @@
 # updating, deletion, and status transitions (confirm/cancel).
 class Api::V1::ReservationsController < Api::V1::BaseController
   include ApiValidation
+  before_action :authenticate_user!, except: [:index, :show, :create]
   before_action :validate_pagination_params, only: [:index]
   before_action :validate_date_params, only: [:index]
   # Load the reservation record for single-resource actions
